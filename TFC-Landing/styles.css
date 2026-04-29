@@ -1,0 +1,77 @@
+/* style.css */
+:root {
+    --primary: #38bdf8; /* Azul ciberseguridad */
+    --dark: #0f172a;    /* Fondo oscuro */
+    --card: #1e293b;    /* Color de las tarjetas */
+    --text: #f1f5f9;    /* Color de texto */
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--dark);
+    color: var(--text);
+    margin: 0;
+    padding: 0;
+}
+
+/* Navegación */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background: #111827;
+    border-bottom: 1px solid var(--primary);
+}
+
+.logo span {
+    color: var(--primary);
+    font-weight: bold;
+}
+
+/* Sección de productos */
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 50px;
+}
+
+.product-card {
+    background: var(--card);
+    padding: 25px;
+    border-radius: 15px;
+    text-align: center;
+    border: 1px solid #334155;
+    transition: 0.3s;
+}
+
+.product-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-5px);
+}
+
+.product-image {
+    font-size: 5rem;
+    margin-bottom: 15px;
+}
+
+.buy-btn {
+    background: var(--primary);
+    color: var(--dark);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+}
+
+/* Pie de página con datos de tu TFC */
+footer {
+    text-align: center;
+    padding: 30px;
+    background: #020617;
+    font-size: 0.8rem;
+    border-top: 1px solid #334155;
+}

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberSquid Kicks | Premium Sneaker Store</title>
+    <style>
+        :root {
+            --primary: #38bdf8;
+            --dark-bg: #020617;
+            --card-bg: #0f172a;
+            --text-main: #f8fafc;
+            --accent: #1e293b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', system-ui, sans-serif; }
+        html { scroll-behavior: smooth; }
+        body { background-color: var(--dark-bg); color: var(--text-main); line-height: 1.6; }
+
+        /* --- NAVEGACIÓN --- */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1.2rem 8%; background: rgba(2, 6, 23, 0.9);
+            position: fixed; width: 100%; top: 0; z-index: 1000;
+            border-bottom: 1px solid var(--accent); backdrop-filter: blur(12px);
+        }
+        .logo { font-size: 1.6rem; font-weight: 800; color: var(--primary); letter-spacing: -1px; }
+        .nav-links { list-style: none; display: flex; gap: 2.5rem; }
+        .nav-links a { color: white; text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: 0.3s; }
+        .nav-links a:hover { color: var(--primary); }
+        .cart-status { background: var(--primary); color: var(--dark-bg); padding: 3px 10px; border-radius: 20px; font-weight: bold; margin-left: 8px; font-size: 0.8rem; }
+
+        /* --- HERO --- */
+        .hero {
+            height: 70vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background: linear-gradient(rgba(2, 6, 23, 0.7), rgba(2, 6, 23, 0.8)), url('imagenes/fondo.jpg') center/cover;
+            text-align: center; padding: 0 20px;
+        }
+        .hero h1 { font-size: 4.5rem; text-transform: uppercase; font-weight: 900; margin-bottom: 1rem; }
+        .hero p { font-size: 1.2rem; color: var(--primary); font-weight: 600; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* --- CATÁLOGO --- */
+        .section-container { padding: 6rem 8%; }
+        .section-title { text-align: center; margin-bottom: 4rem; font-size: 2.5rem; text-transform: uppercase; }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: var(--card-bg); border-radius: 20px; padding: 20px;
+            border: 1px solid var(--accent); transition: all 0.4s ease;
+            display: flex; flex-direction: column;
+        }
+        .product-card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 15px 30px rgba(56, 189, 248, 0.1); }
+
+        .img-box {
+            background: var(--accent); height: 220px; border-radius: 14px;
+            margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+        }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .product-card:hover img { transform: scale(1.1); }
+
+        .product-info h3 { font-size: 1.2rem; margin-bottom: 1rem; height: 2.5rem; display: flex; align-items: center; justify-content: center; text-align: center; }
+        
+        .price-box { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 1rem; }
+        .price { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
+        .btn-buy {
+            background: var(--primary); border: none; padding: 12px 20px;
+            border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; color: var(--dark-bg);
+        }
+        .btn-buy:hover { background: white; transform: scale(1.05); }
+
+        /* --- CARRITO --- */
+        .cart-wrapper { background: #010409; border-top: 1px solid var(--accent); }
+        .cart-container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 24px; border: 1px solid var(--accent); }
+        .cart-item { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid var(--accent); align-items: center; }
+        .total-display { text-align: center; margin-top: 30px; font-size: 2.5rem; font-weight: 900; }
+
+        /* --- FOOTER --- */
+        footer { padding: 4rem; background: #000; text-align: center; border-top: 1px solid var(--accent); }
+        footer p { color: #64748b; margin-bottom: 10px; }
+        .tfc-info { color: var(--primary); font-weight: bold; }
+
+        /* --- MODAL CHAT --- */
+        .modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
+        .modal-content { background-color: var(--card-bg); margin: 15% auto; padding: 20px; border: 1px solid var(--accent); border-radius: 20px; width: 80%; max-width: 500px; }
+        .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .close:hover { color: white; }
+        #chat-messages { height: 200px; overflow-y: auto; margin-bottom: 10px; padding: 10px; background: var(--dark-bg); border-radius: 10px; }
+        .chat-input-container { display: flex; gap: 10px; }
+        #chat-input { flex: 1; padding: 10px; border: 1px solid var(--accent); border-radius: 10px; background: var(--dark-bg); color: white; }
+        #chat-input::placeholder { color: #64748b; }
+        .message { margin-bottom: 10px; }
+        .user { text-align: right; color: var(--primary); }
+        .bot { text-align: left; color: white; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">CyberSquid Kicks</div>
+        <ul class="nav-links">
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#catalogo">Catálogo</a></li>
+            <li><a href="#carrito">Carrito <span id="cart-count" class="cart-status">0</span></a></li>
+            <li><a href="#" onclick="openChat()">Chat en Vivo</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <h1>Compra Seguro</h1>
+        <p>Premium Footwear Collection 2026</p>
+    </header>
+
+    <main class="section-container" id="catalogo">
+        <h2 class="section-title">Nuestra Colección</h2>
+        <div class="product-grid">
+            
+            <!-- Adidas Samba -->
+            <div class="product-card">
+                <div class="img-box"><img src="imagenes\adidas-samba-og.webp" alt="Adidas Samba"></div>
+                <div class="product-info">
+                    <h3>Adidas Samba OG</h3>
+                    <div class="price-box"><span class="price">110€</span><button class="btn-buy" onclick="addToCart('Adidas Samba OG', 110)">Añadir</button></div>
+                </div>
+            </div>
+
+            <!-- Asics -->
+            <div class="product-card">
+                <div class="img-box"><img src="imagenes\asics-gel-cayano.jpg" alt="Asics"></div>
+                <div class="product-info">
+                    <h3>Asics Gel-Kayano</h3>
+                    <div class="price-box"><span class="price">160€</span><button class="btn-buy" onclick="addToCart('Asics Gel-Kayano', 160)">Añadir</button></div>
+                </div>
+            </div>
+
+            <!-- Converse -->
+            <div class="product-card">
+                <div class="img-box"><img src="imagenes/converse-chucky-70.jpg" alt="Converse"></div>
+                <div class="product-info">
+                    <h3>Converse Chuck 70</h3>
+                    <div class="price-box"><span class="price">95€</span><button class="btn-buy" onclick="addToCart('Converse Chuck 70', 95)">Añadir</button></div>
+                </div>
+            </div>
+
+            <!-- Jordan 1 -->
+            <div class="product-card">
+                <div class="img-box"><img src="imagenes/jordan-1-retro.webp" alt="Jordan"></div>
+                <div class="product-info">
+                    <h3>Jordan 1 Retro High</h3>
+                    <div class="price-box"><span class="price">180€</span><button class="btn-buy" onclick="addToCart('Jordan 1 Retro High', 180)">Añadir</button></div>
+                </div>
+            </div>
+
+            <!-- New Balance -->
+            <div class="product-card">
+                <div class="img-box"><img src="imagenes/New-balance-550.webp" alt="New Balance"></div>
+                <div class="product-info">
+                    <h3>New Balance 550</h3>
+                    <div class="price-box"><span class="price">140€</span><button class="btn-buy" onclick="addToCart('New Balance 550', 140)">Añadir</button></div>
+                </div>
+            </div>
+
+            <!-- Nike Air Force -->
+            <div class="product-card">
+                <div class="img-box"><img src="imagenes/nike-air-force-1.webp" alt="AF1"></div>
+                <div class="product-info">
+                    <h3>Nike Air Force 1 '07</h3>
+                    <div class="price-box"><span class="price">120€</span><button class="btn-buy" onclick="addToCart('Nike Air Force 1', 120)">Añadir</button></div>
+                </div>
+            </div>
+
+            <!-- Nike Dunk -->
+            <div class="product-card">
+                <div class="img-box"><img src="imagenes/Nike-dunk-low.jpg" alt="Dunk"></div>
+                <div class="product-info">
+                    <h3>Nike Dunk Low Retro</h3>
+                    <div class="price-row price-box"><span class="price">115€</span><button class="btn-buy" onclick="addToCart('Nike Dunk Low', 115)">Añadir</button></div>
+                </div>
+            </div>
+
+            <!-- Yeezy -->
+            <div class="product-card">
+                <div class="img-box"><img src="imagenes/yeezy-boost-350.jpg" alt="Yeezy"></div>
+                <div class="product-info">
+                    <h3>Yeezy Boost 350 V2</h3>
+                    <div class="price-box"><span class="price">230€</span><button class="btn-buy" onclick="addToCart('Yeezy Boost 350', 230)">Añadir</button></div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <section class="section-container cart-wrapper" id="carrito">
+        <h2 class="section-title">Tu Carrito</h2>
+        <div class="cart-container">
+            <div id="cart-items-list">
+                <p style="text-align:center; color:#64748b;">El carrito está vacío por ahora...</p>
+            </div>
+            <div class="total-display">
+                Total: <span id="total-val">0</span>€
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>TFC Héctor Gálvez | <span class="tfc-info">Entorno Squid + Privoxy + Tor</span></p>
+        <p>© 2026 CyberSquid Kicks Store. Desarrollado para el Proyecto Fin de Ciclo.</p>
+    </footer>
+
+    <div id="chat-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeChat()">&times;</span>
+            <h2>Chat en Vivo</h2>
+            <div id="chat-messages"></div>
+            <div class="chat-input-container">
+                <input type="text" id="chat-input" placeholder="Escribe tu mensaje...">
+                <button onclick="sendMessage()">Enviar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
